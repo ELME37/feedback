@@ -1,33 +1,67 @@
-import React, { useState } from 'react';
+import { useContext, useState } from "react"
+import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
-import axios from 'axios';
+
+import apiRequest from "../../../utils/apiRequest";
+import routes from '../../../router/routes';
+import { AuthContext } from "../../../context/authContext";
 
 import { ContainerFormConnexion, ContentLogin, ContentSignUp, Form, TitleLogin, TitleSignUp, InputLogin, InputSignUp, 
     ContainerError, Error, ContainerLinksLogin, ContainerLinksSignUp, LinksLogin, LinksSignUp, TextLinkSignUp, 
-    LinkLogin, Button, CloseLogin, CloseSignUp } from '../forms.styled';
+    LinkLogin, Button, CloseLogin, CloseSignUp, Notification } from '../forms.styled';
 
 export default function FormConnexion ({ close }) {
     const [isSignUpVisible, setIsSignUpVisible] = useState(false);
-    const [notification, setNotification] = useState({ error: false, message: '' });
+    const [notification, setNotification] = useState({ message: '', type: '' });
 
-    const { handleSubmit: handleSubmitLogin, register: registerLogin, formState: { errors: errorsLogin } } = useForm();
-    const onSubmitLogin = (data) => console.log(data);
+    const navigate = useNavigate();
+    const { updateUser } = useContext(AuthContext);
 
-    const { handleSubmit: handleSubmitSignup, register: registerSignup, formState: { errors: errorsSignup } } = useForm();
-    const onSubmitSignup = (data) => {
-        axios.post('http://localhost:3000/api/auth/signup', data)
-            .then(response => {
-                console.log(data)
-                if (!response?.data) { // Gestion des erreurs d'inscription
-                    console.log('Something went wrong during signing up: ', response);
-                    return;
+    const { handleSubmit: handleSubmitLogin, reset: resetLogin, register: registerLogin, formState: { errors: errorsLogin } } = useForm();
+    const onSubmitLogin = async (data) => {
+            try {
+                const response = await apiRequest.post('/auth/login', data);
+                console.log("Données de réponse de l'API :", response.data);
+                const { token, userId } = response.data;
+                localStorage.setItem('token', token);
+                setNotification({ message: 'Connexion réussie !', type: 'success' });
+                updateUser(response.data);
+                navigate(routes.profil(userId));
+            } catch (error) {
+                if (error.response && error.response.status === 401) {
+                    setNotification({message : 'La paire identifiant/mot de passe est incorrecte.', type: ''});
+                    resetLogin();
+                } else {
+                    setNotification({message: 'Erreur lors de la connexion', type : ''});
+                    console.log('Some error occured during signing in: ', error);
                 }
-                setNotification({ error: false, message: 'Votre compte a bien été créé, vous pouvez vous connecter' });
-            })
-            .catch(err => { // Gestion des erreurs
-                setNotification({ error: true, message: err.message });
-                console.log('Some error occured during signing up: ', err);
+            }
+        };
+
+    const { handleSubmit: handleSubmitSignup, reset: resetSignUp, register: registerSignup, formState: { errors: errorsSignup } } = useForm();
+    const onSubmitSignup = async (data) => {
+        
+        try {
+            const response = await apiRequest.post('/auth/signup', {
+                firstName: data.firstName,
+                lastName: data.lastName,
+                email: data.email,
+                password: data.password
             });
+            
+            if (!response.data) {
+                console.log('Something went wrong during signing up: ', response);
+                return;
+            }
+            console.log(JSON.stringify(data))
+            setNotification({ message: 'Votre compte a bien été créé, vous pouvez vous connecter', type: 'success' });
+            updateUser(response.data);
+            resetSignUp();
+            setIsSignUpVisible(!isSignUpVisible);
+        } catch (error) {
+            setNotification({message : "Erreur lors de l'inscription", type : ''});
+            console.log('Some error occured during signing up: ', error);
+        }
     };
 
     const toggleSignUp = () => {
@@ -38,12 +72,17 @@ export default function FormConnexion ({ close }) {
         <ContainerFormConnexion>
             <ContentLogin $isVisible={!isSignUpVisible}>
                 <TitleLogin>Connexion</TitleLogin>
+                {notification && (
+                    <Notification type={notification.type}>{notification.message}</Notification>
+                )}
                 <Form onSubmit={handleSubmitLogin(onSubmitLogin)}>
-                    <InputLogin type="email" autoComplete="none" placeholder="Email" {...registerLogin('email', { required: true})}/>
+                    <InputLogin type="email" autoComplete="none" placeholder="Email" {...registerLogin('email', { required: true})}
+                    onChange={() => setNotification({ message: "", type: "" })}/>
                     <ContainerError>
                         {errorsLogin.email && <Error>L'email doit être renseigné</Error>}
                     </ContainerError> 
-                    <InputLogin type="password" autoComplete="none" placeholder="Mot de passe"{...registerLogin('password', { required: true})}/>
+                    <InputLogin type="password" autoComplete="none" placeholder="Mot de passe"{...registerLogin('password', { required: true})}
+                    onChange={() => setNotification({ message: "", type: "" })}/>
                     <ContainerError>
                         {errorsLogin.password && <Error>Le mot de passe doit être renseigné</Error>}
                     </ContainerError>
@@ -60,14 +99,17 @@ export default function FormConnexion ({ close }) {
 
             <ContentSignUp $isVisible={isSignUpVisible}>
                 <TitleSignUp>Inscription</TitleSignUp>
+                {notification && (
+                    <Notification type={notification.type}>{notification.message}</Notification>
+                )}
                 <Form onSubmit={handleSubmitSignup(onSubmitSignup)}>
-                    <InputSignUp type="text" autoComplete="none" placeholder="Prénom" {...registerSignup('prénom', { required: true})}/>
+                    <InputSignUp type="text" autoComplete="none" placeholder="Prénom" {...registerSignup('firstName', { required: true})}/>
                     <ContainerError>
-                        {errorsSignup.prenom && <Error>Le prénom doit être renseigné</Error>}
+                        {errorsSignup.firstName && <Error>Le prénom doit être renseigné</Error>}
                     </ContainerError>
-                    <InputSignUp type="text" autoComplete="none" placeholder="Nom" {...registerSignup('nom', { required: true})}/>
+                    <InputSignUp type="text" autoComplete="none" placeholder="Nom" {...registerSignup('lastName', { required: true})}/>
                     <ContainerError>
-                        {errorsSignup.nom && <Error>Le nom doit être renseigné</Error>}
+                        {errorsSignup.lastName && <Error>Le nom doit être renseigné</Error>}
                     </ContainerError> 
                     <InputSignUp type="email" autoComplete="none" placeholder="Email" {...registerSignup('email', { required: true, 
                         pattern: {value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i}, })}/>

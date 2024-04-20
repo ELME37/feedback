@@ -277,3 +277,11 @@ export const CloseLogin = styled.svg`
 export const CloseSignUp = styled(CloseLogin)`
     fill: ${colors.gold};
 `;
+
+export const Notification = styled.p`
+  font-size: 16px;
+  font-style: italic;
+  color: ${({ type }) => (type === 'success' ? 'green' : 'red')};
+  margin: 0;
+  padding: 0;
+`;

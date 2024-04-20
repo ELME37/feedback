@@ -1,11 +1,39 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import routes from '../../router/routes';
+import { useParams } from 'react-router-dom';
+
+import apiRequest from '../../utils/apiRequest';
+import { AuthContext } from '../../context/authContext';
 
 import LayoutDefault from '../../container/layoutDefault';
 import Lign from '../../components/lign';
 
-import { Root, Introduction, TextTitle, Text } from './user.styled';
+import { Root, Introduction, TextTitle, Text } from './profil.styled';
 
-export default function User () {
+export default function Profil () {
+    const navigate = useNavigate()
+    const { userId } = useParams();
+
+    const { updateUser, currentUser } = useContext(AuthContext);
+
+    const goToFeedbackPage = (userId) => {
+        navigate(routes.feedback(userId));
+    };
+
+    const handleLogout = async () => {
+        try {
+            const response = await apiRequest.post('/auth/logout');
+            localStorage.removeItem('token');
+            localStorage.removeItem('userId');
+            console.log(response.data.message);
+            updateUser(null);
+            navigate("/");
+        } catch (error) {
+            console.error('Une erreur s\'est produite lors de la déconnexion :', error);
+        }
+    };
+
     return (
         <LayoutDefault>
             <Root>
@@ -21,9 +49,13 @@ export default function User () {
                 <Lign/>
                 <Text>Nous vous encourageons à explorer les recommandations avec ouverture et objectivité, et à en tirer le meilleur parti pour enrichir votre parcours et atteindre vos objectifs professionnels.</Text>
             </Introduction>
+            <p>{currentUser.firstName}</p>
+            <p>{currentUser.lastName}</p>
             <button>Télécharger au format json</button>
             <button>Télécharger au format pdf</button>
-            <button>Se déconnecter</button>
+            <button onClick={handleLogout}>Se déconnecter</button>
+            <button onClick={() => goToFeedbackPage(userId)}>Voir formulaire feedback</button>
+            <Link to={routes.home}><button>Retour page d'accueil</button></Link>
             </Root>
         </LayoutDefault>
     );

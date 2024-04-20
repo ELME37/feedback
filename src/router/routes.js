@@ -1,7 +1,8 @@
 const routes = {
     home: "/",
-    feedback: "/feedback",
-    user: "/user",
+    feedback: (feedback = ":userId") => `/feedback/${feedback}`,
+    profil: (profil = ":userId") => `/profil/${profil}`,
+    
 };
 
 export default routes;

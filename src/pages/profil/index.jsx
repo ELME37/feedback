@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import routes from '../../router/routes';
 import { useParams } from 'react-router-dom';
@@ -12,12 +12,30 @@ import Lign from '../../components/lign';
 import { Root, Introduction, TextTitle, Text } from './profil.styled';
 
 export default function Profil () {
+    const [feedbacks, setFeedbacks] = useState([]);
+
     const navigate = useNavigate()
     const { userId } = useParams();
-
     const { updateUser, currentUser } = useContext(AuthContext);
 
-    const goToFeedbackPage = (userId) => {
+    useEffect(() => {
+        const displayFeedbacks = async () => {
+            try {
+                const response = await apiRequest.get(`/feedback/${userId}`, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    },
+                });
+                setFeedbacks(response.data);
+            } catch (error) {
+                console.error('Une erreur s\'est produite lors de la récupération des feedbacks :', error);
+            }
+        };
+    
+        displayFeedbacks();
+    }, [userId]);
+
+    const generateFeedbackPage = (userId) => {
         navigate(routes.feedback(userId));
     };
 
@@ -51,10 +69,15 @@ export default function Profil () {
             </Introduction>
             <p>{currentUser.firstName}</p>
             <p>{currentUser.lastName}</p>
+            {feedbacks.map((feedback, index) => (
+                    <div key={index}>
+                        <p>{feedback.recommendation}</p>
+                    </div>
+            ))}
             <button>Télécharger au format json</button>
             <button>Télécharger au format pdf</button>
             <button onClick={handleLogout}>Se déconnecter</button>
-            <button onClick={() => goToFeedbackPage(userId)}>Voir formulaire feedback</button>
+            <button onClick={() => generateFeedbackPage(userId)}>Générer page feedback</button>
             <Link to={routes.home}><button>Retour page d'accueil</button></Link>
             </Root>
         </LayoutDefault>

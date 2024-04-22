@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import React, { useContext, useState } from "react"
 import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 
@@ -21,7 +21,6 @@ export default function FormConnexion ({ close }) {
     const onSubmitLogin = async (data) => {
             try {
                 const response = await apiRequest.post('/auth/login', data);
-                console.log("Données de réponse de l'API :", response.data);
                 const { token, userId } = response.data;
                 localStorage.setItem('token', token);
                 setNotification({ message: 'Connexion réussie !', type: 'success' });
@@ -53,7 +52,6 @@ export default function FormConnexion ({ close }) {
                 console.log('Something went wrong during signing up: ', response);
                 return;
             }
-            console.log(JSON.stringify(data))
             setNotification({ message: 'Votre compte a bien été créé, vous pouvez vous connecter', type: 'success' });
             updateUser(response.data);
             resetSignUp();

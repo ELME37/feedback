@@ -1,17 +1,47 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+
+import apiRequest from '../../utils/apiRequest';
 
 import LayoutDefault from '../../container/layoutDefault';
 import FormFeedback from '../../container/forms/formFeedback';
 import Lign from '../../components/lign';
 import Footer from '../../components/footer';
+import Error404 from '../error404';
 
-import { Root, Introduction, Text, TextTitle, ContainerUser, TextUser } from './feedback.styled';
+import { Root, Introduction, H1, Text, TextTitle, ContainerUser, TextUser } from './feedback.styled';
 
 export default function Feedback () {
+    const [isValidUserId, setIsValidUserId] = useState();
+    const [userData, setUserData] = useState(null);
+
+    const { userId } = useParams();
+    
+    useEffect(() => {
+      const checkUserIdValidity = async () => {
+        try {
+          const response = await apiRequest.get(`/auth/${userId}`);
+          setUserData(response.data);
+          
+          setIsValidUserId(true);
+        } catch (error) {
+          console.error(error);
+          setIsValidUserId(false);
+        }
+      };
+  
+      checkUserIdValidity();
+    }, [userId]);
+  
+    if (!isValidUserId) {
+      return <Error404 />;
+    }
+
     return (
         <LayoutDefault>
             <Root>
                 <Introduction>
+                    <H1>Bienvenue sur Feedback</H1>
                     <TextTitle>Cher Contributeur,</TextTitle>
                     <Text>Nous vous remercions de consacrer du temps à fournir une recommandation pour un membre précieux de notre communauté. Votre expertise et votre perspective sont des atouts essentiels pour mettre en lumière le potentiel et les compétences de votre ancien collègue.</Text>
                     <Lign/>
@@ -23,9 +53,9 @@ export default function Feedback () {
                 </Introduction>
                 <ContainerUser>
                     <TextUser>Vous contribuez pour :</TextUser>
-                    <TextUser>M. Dupond</TextUser>
+                    <TextUser>{userData.user.firstName} {userData.user.lastName}</TextUser>
                 </ContainerUser>
-                <FormFeedback/>
+                <FormFeedback userId={userId}/>
                 <Footer/>
             </Root>
         </LayoutDefault>

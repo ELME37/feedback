@@ -16,6 +16,14 @@ export const Introduction = styled.div`
     border: 6px ${colors.gold} solid;
 `;
 
+export const H1 = styled.h1`
+    font-family: "Raleway", sans-serif;
+    color: ${colors.gold};
+    line-height: 1.8em;
+    text-align: center;
+    margin-bottom: 30px;
+`;
+
 export const Text = styled.p`
     font-family: "Raleway", sans-serif;
     color: ${colors.white};

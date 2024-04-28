@@ -22,6 +22,10 @@ export const LogoMalt = styled.img`
     width: 20px;
 `;
 
+export const QRCodeImg = styled.img`
+    width: 60px;
+`;
+
 export const Lien = styled.a`
     position: relative;
     display: flex;

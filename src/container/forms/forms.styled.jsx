@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import styled, { keyframes } from "styled-components";
 import { colors } from "../../utils/colors";
 
@@ -130,7 +132,7 @@ export const ContainerLinksSignUp = styled(ContainerLinksLogin)`
   justify-content: end;
 `;
 
-export const LinksLogin = styled.a`
+export const LinkForgotPassword = styled(Link)`
   font-size: 16px;
   font-style: italic;
   color: ${colors.blue};
@@ -140,8 +142,7 @@ export const LinksLogin = styled.a`
 export const TextLinkSignUp = styled.a`
   font-size: 16px;
   font-style: italic;
-  color: ${colors.gold};
-  }   
+  color: ${colors.gold}; 
 `;
 
 export const LinksSignUp = styled.a`
@@ -150,13 +151,13 @@ export const LinksSignUp = styled.a`
   font-weight: bold;
   margin-left: 10px;
   text-decoration: underline;
-  color: ${colors.gold};
-  }   
+  color: ${colors.gold};  
 `;
 
-export const LinkLogin = styled(LinksLogin)`
+export const LinkLogin = styled(TextLinkSignUp)`
   text-decoration: underline;
-  }   
+  font-weight: bold;
+  color: ${colors.blue};
 `;
 
 export const Button = styled.button`
@@ -168,7 +169,6 @@ export const Button = styled.button`
   border: 2px ${colors.gold} solid;
   border-radius: 10px;
   color: ${colors.gold};
-  }
 `;
 
 export const Root = styled.form`
@@ -281,7 +281,25 @@ export const CloseSignUp = styled(CloseLogin)`
 export const Notification = styled.p`
   font-size: 16px;
   font-style: italic;
+  text-align: center;
   color: ${({ type }) => (type === 'success' ? 'green' : 'red')};
   margin: 0;
   padding: 0;
+`;
+
+export const ContentPassword = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+  margin-top: 100px;
+  padding: 20px;
+  border-radius: 12px;
+  background: ${colors.black2};
+  border: 2px ${colors.gold} solid;
+`;
+
+export const TitlePassword = styled(TitleLogin)`
+  color: ${colors.gold};
 `;

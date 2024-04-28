@@ -13,6 +13,7 @@ import { Root, Introduction, H1, Text, TextTitle, ContainerUser, TextUser } from
 
 export default function Feedback () {
     const [isValidUserId, setIsValidUserId] = useState();
+    const [isLoading, setIsLoading] = useState(true);
     const [userData, setUserData] = useState(null);
 
     const { userId } = useParams();
@@ -22,16 +23,21 @@ export default function Feedback () {
         try {
           const response = await apiRequest.get(`/auth/${userId}`);
           setUserData(response.data);
-          
           setIsValidUserId(true);
+          setIsLoading(false);
         } catch (error) {
           console.error(error);
           setIsValidUserId(false);
+          setIsLoading(false);
         }
       };
   
       checkUserIdValidity();
     }, [userId]);
+
+    if (isLoading) {
+      return <p>Chargement en cours</p>;
+    }
   
     if (!isValidUserId) {
       return <Error404 />;
@@ -53,7 +59,9 @@ export default function Feedback () {
                 </Introduction>
                 <ContainerUser>
                     <TextUser>Vous contribuez pour :</TextUser>
-                    <TextUser>{userData.user.firstName} {userData.user.lastName}</TextUser>
+                    {userData && (
+                        <TextUser>{userData.firstName} {userData.lastName}</TextUser>
+                    )}
                 </ContainerUser>
                 <FormFeedback userId={userId}/>
                 <Footer/>

@@ -2,8 +2,9 @@ import React from 'react';
 
 import logoMTU from '../../assets/images/logo MTU black.png'
 import logoMalt from '../../assets/images/logo malt.png'
+import QRCode from '../../assets/images/QR Code site.png'
 
-import { Root, LogoMTU, LogoMalt, Lien, ContainerLiens, TextLiens, Svg, Linkedin, Porfolio } from './footer.styled';
+import { Root, LogoMTU, LogoMalt, QRCodeImg, Lien, ContainerLiens, TextLiens, Svg, Linkedin, Porfolio } from './footer.styled';
 
 export default function Footer () {
     return (
@@ -12,6 +13,7 @@ export default function Footer () {
                 <Porfolio>Clique sur le logo pour consulter le portfolio</Porfolio>
                 <LogoMTU src={logoMTU} alt="logo MTU" />
             </Lien>
+            <QRCodeImg src={QRCode} alt="QR Code mturquais.fr" />
             <ContainerLiens className="footer__logo">
                 <Lien href="https://www.linkedin.com/in/micka%C3%ABl-turquais-1542b611a/" target="_blank" rel="noopener noreferrer">
                     <TextLiens>Profil Linkedin</TextLiens>

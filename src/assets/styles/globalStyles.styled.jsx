@@ -15,7 +15,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background-color: ${colors.darkbrown}
+    background-color: ${colors.black}
   }
 
   html, body, div, span, h1, h2, h3, h4, h5, h6, p, li, ul, a {

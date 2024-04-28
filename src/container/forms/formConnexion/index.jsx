@@ -7,7 +7,7 @@ import routes from '../../../router/routes';
 import { AuthContext } from "../../../context/authContext";
 
 import { ContainerFormConnexion, ContentLogin, ContentSignUp, Form, TitleLogin, TitleSignUp, InputLogin, InputSignUp, 
-    ContainerError, Error, ContainerLinksLogin, ContainerLinksSignUp, LinksLogin, LinksSignUp, TextLinkSignUp, 
+    ContainerError, Error, ContainerLinksLogin, ContainerLinksSignUp, LinkForgotPassword, LinksSignUp, TextLinkSignUp, 
     LinkLogin, Button, CloseLogin, CloseSignUp, Notification } from '../forms.styled';
 
 export default function FormConnexion ({ close }) {
@@ -74,18 +74,26 @@ export default function FormConnexion ({ close }) {
                     <Notification type={notification.type}>{notification.message}</Notification>
                 )}
                 <Form onSubmit={handleSubmitLogin(onSubmitLogin)}>
-                    <InputLogin type="email" autoComplete="none" placeholder="Email" {...registerLogin('email', { required: true})}
-                    onChange={() => setNotification({ message: "", type: "" })}/>
+                    <InputLogin type="email" autoComplete="none" placeholder="Email" 
+                        {...registerLogin('email', {
+                            required: true,
+                            onChange: () => setNotification({ message: "", type: "" })
+                        })}
+                    />
                     <ContainerError>
                         {errorsLogin.email && <Error>L'email doit être renseigné</Error>}
                     </ContainerError> 
-                    <InputLogin type="password" autoComplete="none" placeholder="Mot de passe"{...registerLogin('password', { required: true})}
-                    onChange={() => setNotification({ message: "", type: "" })}/>
+                    <InputLogin type="password" autoComplete="none" placeholder="Mot de passe"
+                        {...registerLogin('password', {
+                            required: true,
+                            onChange: () => setNotification({ message: "", type: "" })
+                        })}
+                    />
                     <ContainerError>
                         {errorsLogin.password && <Error>Le mot de passe doit être renseigné</Error>}
                     </ContainerError>
                     <ContainerLinksLogin>
-                        <LinksLogin href="#">Mot de passe oublié</LinksLogin>
+                        <LinkForgotPassword to={`${routes.forgotPassword}/forgot`}>Mot de passe oublié</LinkForgotPassword>
                         <LinkLogin href="#" onClick={toggleSignUp}>Créer un compte</LinkLogin>
                     </ContainerLinksLogin>
                     <Button type="submit">Se connecter</Button>
@@ -101,23 +109,42 @@ export default function FormConnexion ({ close }) {
                     <Notification type={notification.type}>{notification.message}</Notification>
                 )}
                 <Form onSubmit={handleSubmitSignup(onSubmitSignup)}>
-                    <InputSignUp type="text" autoComplete="none" placeholder="Prénom" {...registerSignup('firstName', { required: true})}/>
+                    <InputSignUp type="text" autoComplete="none" placeholder="Prénom"
+                        {...registerSignup('firstName',
+                            { required: true,
+                            onChange: () => setNotification({ message: "", type: "" })
+                        })}
+                     />
                     <ContainerError>
                         {errorsSignup.firstName && <Error>Le prénom doit être renseigné</Error>}
                     </ContainerError>
-                    <InputSignUp type="text" autoComplete="none" placeholder="Nom" {...registerSignup('lastName', { required: true})}/>
+                    <InputSignUp type="text" autoComplete="none" placeholder="Nom"
+                        {...registerSignup('lastName',
+                            { required: true,
+                            onChange: () => setNotification({ message: "", type: "" })
+                        })}
+                    />
                     <ContainerError>
                         {errorsSignup.lastName && <Error>Le nom doit être renseigné</Error>}
                     </ContainerError> 
-                    <InputSignUp type="email" autoComplete="none" placeholder="Email" {...registerSignup('email', { required: true, 
-                        pattern: {value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i}, })}/>
+                    <InputSignUp type="email" autoComplete="none" placeholder="Email"
+                        {...registerSignup('email',
+                            { required: true, 
+                            pattern: {value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i},
+                            onChange: () => setNotification({ message: "", type: "" })
+                        })}
+                    />
                     <ContainerError>
                         {errorsSignup.email && <Error>L'adresse email invalide</Error>}
                     </ContainerError> 
-                    <InputSignUp type="password" autoComplete="none" placeholder="Mot de passe"{...registerSignup('password', { required: true, 
-                        minLength: {value: 8},
-                        pattern: {value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/},
-                    })}/>
+                    <InputSignUp type="password" autoComplete="none" placeholder="Mot de passe"
+                        {...registerSignup('password',
+                            { required: true, 
+                            minLength: {value: 8},
+                            pattern: {value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/},
+                            onChange: () => setNotification({ message: "", type: "" })
+                        })}
+                    />
                     <ContainerError>
                         {errorsSignup.password && 
                             <Error>Le mot de passe doit contenir: (8 caractères, 1 lettre majuscule, 1 lettre minuscule, 1 chiffre)</Error>

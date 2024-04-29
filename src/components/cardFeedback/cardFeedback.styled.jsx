@@ -54,22 +54,39 @@ export const ContainerContributorGeneral = styled.div`
     justify-content: space-between;
     align-items: center;
     width: 100%;
+
+    @media (max-width: 650px) {
+        flex-direction: column;
+    }
 `;
 
 export const ContainerContributorIdentify = styled.div`
     display: flex;
     flex-direction: column;
+
+    @media (max-width: 650px) {
+        margin-top: 30px;
+       }
 `;
 
 export const ContainerContributor = styled.div`
    display: flex;
    margin-bottom: 6px;
+
+   @media (max-width: 650px) {
+    justify-content: center;
+   }
 `;
 
 export const TextFeedback = styled.p`
    color: ${colors.white};
    margin: 10px 0;
    text-align: justify;
+
+   @media (max-width: 650px) {
+    font-size: 14px;
+    text-align: center;
+   }
 `;
 
 export const NameContributor = styled.p`
@@ -84,9 +101,17 @@ export const NameContributor = styled.p`
     &:nth-child(2) {
         text-transform: uppercase;
     }
+
+    @media (max-width: 650px) {
+        font-size: 14px;
+    }
 `;
 
 export const PositionContributor = styled.p`
     color: ${colors.white};
     text-align: center;
+
+    @media (max-width: 650px) {
+        font-size: 14px;
+    }
 `;

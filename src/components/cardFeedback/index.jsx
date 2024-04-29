@@ -49,7 +49,7 @@ export default function CardFeedback ({ id, text, firstName, lastName, position,
                     <TextFeedback>{text}</TextFeedback>
                 </ContainerFeedback>
                 <ContainerContributorGeneral>
-                    <PositionContributor>Lien avec l'utilisateur: {relationship}</PositionContributor>
+                    <PositionContributor>Lien avec l'utilisateur : {relationship}</PositionContributor>
                     <ContainerContributorIdentify>
                         <ContainerContributor>
                             <NameContributor>{firstName}</NameContributor>

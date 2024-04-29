@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Slider from "react-slick";
-
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -12,7 +11,7 @@ export default function Carousel ({ slides }) {
     const settings = {
         dots: true,
         infinite: true,
-        speed: 2000,
+        speed: 3000,
         slidesToShow: 1,
         slidesToScroll: 1,
         autoplay: true,
@@ -31,7 +30,7 @@ export default function Carousel ({ slides }) {
         <Root >
             <Slider {...settings}>
                 {slides.map((slide, index) => (
-                    <ContainerSlide key={index}>
+                    <ContainerSlide key={index} className='toto'>
                       <ContainerFeedback>
                         <Feedback>{slide.feedback}</Feedback>
                         <Name>{slide.name}</Name>

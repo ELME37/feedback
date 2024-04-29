@@ -98,6 +98,14 @@ export const InputLogin = styled.input`
   &::placeholder {
     color: rgba(255,255,255,0.5);
   }
+
+  @media (max-width: 650px) {
+    width: 90%;
+  }
+
+  @media (max-width: 500px) {
+    width: calc(100% - 20px);
+  }
 `;
 
 export const InputSignUp = styled(InputLogin)`
@@ -244,6 +252,14 @@ export const InputArea = styled.textarea`
   &::placeholder {
     color: rgba(255,255,255,0.5);
   }
+
+  @media (max-width: 650px) {
+    width: 90%;
+  }
+
+  @media (max-width: 500px) {
+    width: calc(100% - 20px);
+  }
 `;
 
 export const Svg = styled.svg`
@@ -292,7 +308,7 @@ export const ContentPassword = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 60%;
+  width: calc(100% - 20px);
   margin-top: 100px;
   padding: 20px;
   border-radius: 12px;
@@ -302,4 +318,5 @@ export const ContentPassword = styled.div`
 
 export const TitlePassword = styled(TitleLogin)`
   color: ${colors.gold};
+  text-align: center;
 `;

@@ -7,11 +7,14 @@ export const Root = styled.footer`
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    height: 100px;
     margin-top: 100px;
     padding: 30px;
     background: ${colors.gold};
     border-radius: 4px 4px 0 0;
+
+    @media (max-width: 500px) {
+        flex-direction: column;
+    }
 `;
 
 export const LogoMTU = styled.img`
@@ -24,6 +27,11 @@ export const LogoMalt = styled.img`
 
 export const QRCodeImg = styled.img`
     width: 60px;
+
+    @media (max-width: 500px) {
+        width: 80px;
+        margin: 30px 0;
+    }
 `;
 
 export const Lien = styled.a`

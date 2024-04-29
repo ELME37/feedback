@@ -53,7 +53,6 @@ export default function FormConnexion ({ close }) {
                 return;
             }
             setNotification({ message: 'Votre compte a bien été créé, vous pouvez vous connecter', type: 'success' });
-            updateUser(response.data);
             resetSignUp();
             setIsSignUpVisible(!isSignUpVisible);
         } catch (error) {

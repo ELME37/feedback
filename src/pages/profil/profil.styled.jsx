@@ -3,14 +3,17 @@ import styled from 'styled-components';
 import { colors } from '../../utils/colors';
 
 export const Root = styled.div`
-    
 `;
 
 export const Introduction = styled.div`
-    margin: 30px 0;
+    margin: 30px auto;
     padding: 30px;
     border-radius: 20px;
     border: 6px ${colors.gold} solid;
+
+    @media (max-width: 650px) {
+        width: calc(100% - 20px);
+    }
 `;
 
 export const Text = styled.p`
@@ -18,12 +21,21 @@ export const Text = styled.p`
     color: ${colors.white};
     line-height: 1.6em;
     text-align: justify;
+
+    @media (max-width: 650px) {
+        font-size: 14px;
+        text-align: center;
+    }
 `;
 
 export const TextTitle = styled(Text)`
     text-align: center;
     margin-bottom: 30px;
     font-size: 20px;
+
+    @media (max-width: 650px) {
+        font-size: 18px;
+    }
 `;
 
 export const Strong = styled.strong`
@@ -32,6 +44,10 @@ export const Strong = styled.strong`
     line-height: 1.6em;
     text-align: justify;
     font-size: 20px;
+
+    @media (max-width: 650px) {
+        font-size: 18px;
+    }
 `;
 
 export const NoneFeedback = styled(Text)`
@@ -39,6 +55,10 @@ export const NoneFeedback = styled(Text)`
     font-style: italic;
     font-size: 16px;
     color: ${colors.gold};
+
+    @media (max-width: 650px) {
+        font-size: 14px;
+    }
 `;
 
 export const ContainerNoneFeedback = styled.div`
@@ -51,6 +71,11 @@ export const ContainerFeedback = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
+    margin: 0 auto;
+
+    @media (max-width: 650px) {
+        width: calc(100% - 20px);
+    }
 `;
 
 export const ContainerPrint = styled.div`
@@ -76,6 +101,10 @@ export const ContainerButtons = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    
+    @media (max-width: 650px) {
+       width: calc(100% - 20px);
+    }
 `;
 
 export const Button = styled.button`
@@ -97,6 +126,11 @@ export const ContainerCopyUrl = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin: 0 auto;
+
+    @media (max-width: 650px) {
+        width: calc(100% - 20px);
+    }
 `;
 
 export const CopyUrl = styled.input`

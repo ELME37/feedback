@@ -60,7 +60,7 @@ export default function Profil () {
         };
     
         checkUserIdValidity();
-      }, [userId]);
+    }, [userId]);
 
     if (isLoading) {
         return <p>Chargement en cours</p>;
